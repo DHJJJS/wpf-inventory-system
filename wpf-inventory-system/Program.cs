@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace wpf_inventory_system
 {
@@ -23,6 +24,7 @@ namespace wpf_inventory_system
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 base.OnConfiguring(optionsBuilder);
+                optionsBuilder.UseMySql("Server=localhost;Database=inventory;Uid=root;Pwd=root;CharSet=utf8mb4;");
             }
 
         }
