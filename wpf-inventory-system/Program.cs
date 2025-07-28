@@ -24,7 +24,9 @@ namespace wpf_inventory_system
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 base.OnConfiguring(optionsBuilder);
-                optionsBuilder.UseMySql("Server=localhost;Database=inventory;Uid=root;Pwd=root;CharSet=utf8mb4;");
+                optionsBuilder.UseMySql("Server=localhost;Database=inventory;Uid=root;Pwd=root;",
+                                         ServerVersion.AutoDetect("Server=localhost;Database=inventory;Uid=root;Pwd=root;")
+                                         );
             }
 
         }
