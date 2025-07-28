@@ -23,10 +23,10 @@ namespace wpf_inventory_system
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
+
+//                optionsBuilder.UseSqlServer("YourConnectionString");
                 base.OnConfiguring(optionsBuilder);
-                optionsBuilder.UseMySql("Server=localhost;Database=inventory;Uid=root;Pwd=root;",
-                                         ServerVersion.AutoDetect("Server=localhost;Database=inventory;Uid=root;Pwd=root;")
-                                         );
+                optionsBuilder.UseSqlServer("Server=localhost;Database=inventory;Trusted_Connection=true;");
             }
 
         }
