@@ -1,35 +1,30 @@
 # WPF 재고관리 프로젝트
 
 ## 개요
-- WPF의 고급 기능을 활용한, TCP 소켓을 통한 클라이언트 실시간 동기화가 가능한 현대적 데스크톱 ERP 시스템
+- WPF와 Entity Framework Core를 활용한 실무 중심의 데스크톱 ERP 시스템
 
 ## 기술 스택
 - **Frontend**: .NET 8 WPF
 - **Database**: SQL Server Express (MySQL에서 변경)
 - **ORM**: Entity Framework Core
-- **Communication**: TCP Socket (예정)
+- **Communication**: Direct DB Connection (실무 환경 기준)
 - **Tools**: Visual Studio 2022, Git
 
 ## 프로젝트 구조
 
 ```shell
 wpf-inventory-system/
-├── wpf-inventory-system/ // 메인 프로젝트
-│   ├── Program.cs // 진입점
-│   ├── Models/
-│   │   └── Product.cs // 상품 엔티티
-│   ├── Data/
-│   │   └── ApplicationDbContext.cs // DB 컨텍스트
-│   └── Migrations/ // DB 마이그레이션 파일들
+├── wpf-inventory-system/          # 콘솔 프로젝트
+├── UI_inventory/                  # WPF 프로젝트
 └── README.md
 ```
 
 
 ## 개발 진행상황
-- [ ] Entity Framework 모델 설계
-- [ ] TCP 소켓 서버 구현  
-- [ ] WPF 클라이언트 구현
-- [ ] 실시간 동기화 구현
+- [x] Entity Framework 모델 설계          ✅
+- [ ] ~~TCP 소켓 서버 구현~~              (방향 변경)  
+- [x] WPF 기본 UI 구현                   ✅
+- [ ] 데이터 바인딩 및 CRUD 기능 구현     (진행 중)
 
 ## 실행 방법
 (나중에 채워넣기)
