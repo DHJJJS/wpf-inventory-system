@@ -155,6 +155,114 @@ wpf-inventory-system/
 - [ ] DataGrid 데이터 바인딩
 - [ ] 상품 추가/수정/삭제 기능 구현
 
++++)
+
+#### WPF 프로젝트와 콘솔 프로젝트 연동
+
+**프로젝트 구조 재구성**
+- WPF 프로젝트에서 콘솔 프로젝트의 Entity Framework 코드 재사용 결정
+- 코드 중복 방지 및 단일 진실 공급원(Single Source of Truth) 확립
+
+**클래스 접근성 문제 해결**
+- 초기 문제: 콘솔 프로젝트의 클래스들이 `internal` 접근 제한자로 설정
+- 중첩 클래스 구조로 인한 외부 접근 불가 문제 발견
+```csharp
+// 문제가 된 구조 (중첩 클래스)
+public class Program
+{
+    public class Product { ... }          // 외부 접근 불가
+    public class ApplicationDbContext { ... }  // 외부 접근 불가
+}
+
+// 해결된 구조 (독립 클래스)
+public class Product { ... }              // 외부 접근 가능
+public class ApplicationDbContext { ... } // 외부 접근 가능
+public class Program { ... }
+```
+
+**프로젝트 참조 설정**
+- WPF 프로젝트 → 콘솔 프로젝트 참조 추가
+- `using wpf_inventory_system;` 네임스페이스 참조로 클래스 접근
+
+#### 상품 추가 기능 구현
+
+**AddProductWindow.xaml 설계**
+- 모달 다이얼로그 방식의 상품 입력 창 구현
+- Grid 레이아웃으로 제목, 입력 필드, 버튼 영역 구분
+- 입력 필드: 상품명(TextBox), 가격(TextBox), 재고(TextBox)
+- 액션 버튼: 확인, 취소
+
+**데이터 유효성 검증 로직**
+```csharp
+private void BtnCheck_Click(object sender, RoutedEventArgs e)
+{
+    string name = TxtName.Text;
+    if (int.TryParse(TxtPrice.Text, out int price) &&
+        int.TryParse(Txtinven.Text, out int inventory))
+    {
+        // 유효한 입력 시 DB 저장 로직 실행
+        var product = new Product
+        {
+            ProductName = name,
+            ProductPrice = price,
+            ProductInventory = inventory
+        };
+        
+        using var context = new ApplicationDbContext();
+        context.Products.Add(product);
+        context.SaveChanges();
+        
+        MessageBox.Show("DB 저장 성공!");
+        this.Close();
+    }
+    else
+    {
+        MessageBox.Show("숫자를 올바르게 입력하세요!");
+        return;
+    }
+}
+```
+
+**TryParse 메서드 활용**
+- `int.TryParse()` 메서드로 안전한 문자열 → 정수 변환
+- `out` 매개변수로 변환된 값과 성공/실패 여부 동시 반환
+- `&&` 연산자로 여러 입력값의 유효성을 한 번에 검증
+
+#### 메인 윈도우와 서브 윈도우 연동
+
+**모달 다이얼로그 패턴**
+```csharp
+private void BtnAdd_Click(object sender, RoutedEventArgs e)
+{
+    var addWindow = new AddProductWindow();
+    addWindow.ShowDialog(); // 모달 방식으로 열기
+}
+```
+
+#### 트러블슈팅 경험
+
+1. **프로젝트 타겟 프레임워크 불일치**
+   - WPF 프로젝트가 .NET Framework로 생성되어 Entity Framework Core 패키지 설치 불가
+   - .NET 8로 프로젝트 재생성으로 해결
+
+2. **타입 변환 오류**
+   - `TextBox.Text` (string) → int 직접 할당 시도로 컴파일 에러
+   - `int.TryParse()` 메서드 활용으로 안전한 변환 구현
+
+3. **변수 중복 선언**
+   - `TryParse`의 `out` 매개변수와 `Convert.ToInt32()` 결과 변수명 충돌
+   - `TryParse` 성공 시 변환된 값 직접 사용으로 해결
+
+4. **클래스 접근성 문제**
+   - 중첩 클래스 구조로 인한 프로젝트 간 접근 불가
+   - 클래스들을 네임스페이스 레벨로 이동하여 해결
+
+## 🎯 다음 단계
+- [ ] 메인 윈도우에서 DataGrid 데이터 바인딩
+- [ ] 새로고침 기능으로 추가된 상품 즉시 반영
+- [ ] 상품 삭제 기능 구현
+- [ ] 상품 수정 기능 구현
+
 </details>
 
 <details>
