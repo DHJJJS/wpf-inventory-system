@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+using System.Collections.Generic;
 
 namespace wpf_inventory_system
 {
@@ -24,7 +24,7 @@ namespace wpf_inventory_system
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
 
-//                optionsBuilder.UseSqlServer("YourConnectionString");
+                //                optionsBuilder.UseSqlServer("YourConnectionString");
                 base.OnConfiguring(optionsBuilder);
                 optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MSSQLLocalDB;Database=inventory;Trusted_Connection=true;");
             }
@@ -35,7 +35,7 @@ namespace wpf_inventory_system
         static void Main(string[] args)
         {
 
-//            Product product;
+            //            Product product;
 
             using var context = new ApplicationDbContext();
             var product = new Product
@@ -48,10 +48,10 @@ namespace wpf_inventory_system
             context.SaveChanges();
 
             var products = context.Products.ToList();
-            foreach(var p in products)
+            foreach (var p in products)
             {
                 Console.WriteLine($"상품 : {p.ProductName}, 가격 : {p.ProductPrice}");
             }
-        }   
+        }
     }
 }

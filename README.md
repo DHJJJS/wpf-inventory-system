@@ -37,8 +37,133 @@ wpf-inventory-system/
 (나중에 채워넣기)
 
 
-### 3일차
+<details>
+<summary>4일차 - WPF UI 구현 및 프로젝트 구조 확립</summary>
 
+### 4일차
+
+#### SQL Server Express 환경 구축 완료
+
+**EF Core Tools 패키지 문제 해결**
+- Migration 실행 시 `Microsoft.EntityFrameworkCore.Design` 패키지 누락 오류 발생
+- 패키지 설치 후 Migration 성공적으로 실행
+
+**데이터베이스 연결 문제 해결**
+- 초기 연결 문자열: `"Server=localhost;Database=inventory;Trusted_Connection=true;"`로 연결 실패
+- SSMS에서 Database 'inventory' 생성
+- SSMS에서 실제 서버 이름 확인: `DESKTOP-41VA7UE\LOCALDB#00479452`
+- 최종 해결: LocalDB 자동 인스턴스 사용
+```csharp
+optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MSSQLLocalDB;Database=inventory;Integrated Security=true;");
+```
+
+#### 개발자 기본 실수 경험
+**파일 저장 누락 문제**
+- 코드 수정 후 Ctrl+S 저장하지 않고 터미널 실행
+- 변경사항이 반영되지 않아 계속 같은 오류 발생
+- 해결 후 Migration 성공: `done` 메시지 확인
+
+#### 데이터베이스 CRUD 기능 검증
+
+**콘솔 테스트 구현**
+```csharp
+using var context = new ApplicationDbContext();
+var product = new Product
+{
+    ProductInventory = 1,
+    ProductName = "라",
+    ProductPrice = 1,
+};
+context.Products.Add(product);
+context.SaveChanges();
+
+var products = context.Products.ToList();
+foreach(var p in products)
+{
+    Console.WriteLine($"상품 : {p.ProductName}, 가격 : {p.ProductPrice}");
+}
+```
+
+**양방향 데이터 검증 완료**
+- C# 콘솔 출력: "라, 1" 확인
+- SSMS에서 실제 DB 데이터 저장 확인
+- Entity Framework 완전 작동 검증
+
+#### 아키텍처 방향성 결정
+
+**TCP 소켓 서버 vs WPF 직접 연결**
+- 실제 ERP 환경 조사 결과:
+  - 일반적 ERP (90%): 클라이언트 → DB 직접 연결
+  - 고급 ERP (10%): 클라이언트 → 서버 → DB 구조
+- **결정**: 실무 중심의 직접 연결 방식 채택
+- 이유: 빠른 완성, 실제 환경과 동일, WPF 심화 학습 집중
+
+#### WPF 프로젝트 생성 및 기본 UI 구현
+
+**프로젝트 구조**
+```
+wpf-inventory-system/
+├── wpf-inventory-system/          # 콘솔 프로젝트 (DB 테스트용)
+└── UI_inventory/                  # WPF 프로젝트 (메인 UI)
+```
+
+**메인 윈도우 레이아웃 설계**
+```xml
+<Grid>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>    <!-- 제목 영역 -->
+        <RowDefinition Height="Auto"/>    <!-- 버튼 영역 -->
+        <RowDefinition Height="1*"/>      <!-- 데이터 영역 -->
+    </Grid.RowDefinitions>
+    
+    <!-- 제목 -->
+    <Label Content="재고 관리 시스템" FontSize="24" FontWeight="Bold"/>
+    
+    <!-- 버튼 그룹 -->
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <Button Content="상품추가" Width="100" Height="40" Margin="5"/>
+        <Button Content="새로고침" Width="100" Height="40" Margin="5"/>
+        <Button Content="삭제" Width="100" Height="40" Margin="5"/>
+    </StackPanel>
+    
+    <!-- 데이터 그리드 -->
+    <DataGrid Grid.Row="2" AutoGenerateColumns="True" IsReadOnly="True"/>
+</Grid>
+```
+
+#### UI 설계 원칙 적용
+
+**체계적인 레이아웃 구조**
+- Grid.RowDefinitions으로 영역 분할
+- Auto/1* 높이 설정으로 반응형 디자인
+- StackPanel을 활용한 버튼 그룹화
+
+**사용자 친화적 디자인**
+- 24px 큰 제목으로 명확한 앱 정체성
+- 버튼 크기 통일 (100x40)로 일관성 확보
+- DataGrid ReadOnly 설정으로 안전성 보장
+
+#### 트러블슈팅 경험
+
+1. **프로젝트 실수 삭제**
+   - 개발 중 실수로 프로젝트 파일 삭제
+   - README 문서화의 중요성 재확인
+   - 빠른 재생성으로 복구 (경험치 상승)
+
+2. **네이밍 컨벤션 혼동**
+   - Product (클래스) vs product (변수) 구분
+   - 대소문자 구별의 중요성 학습
+
+## 🎯 다음 단계
+- [ ] Entity Framework 코드를 WPF 프로젝트로 이식
+- [ ] 버튼 이벤트 핸들러 구현
+- [ ] DataGrid 데이터 바인딩
+- [ ] 상품 추가/수정/삭제 기능 구현
+
+</details>
+
+<details>
+<summary> 3일차 - MySQl -> SQL Server 전환 결정 </summary>
 ### 3일차
 
 #### MySQL → SQL Server 전환 결정
@@ -102,6 +227,8 @@ optionsBuilder.UseSqlServer("Server=localhost;Database=inventory;Trusted_Connect
 - [ ] SQL Server Express 설치
 - [ ] 실제 Migration 실행 및 테이블 생성 확인
 - [ ] 콘솔에서 기본 CRUD 테스트
+
+</details>
 
 <details>
 <summary>2일차 - Entity Framework 개념 학습</summary>
@@ -250,7 +377,7 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         ServerVersion.AutoDetect(connectionString)
     );
 }
-```]
+```
 
 </details>
 

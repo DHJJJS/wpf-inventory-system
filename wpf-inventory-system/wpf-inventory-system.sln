@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf-inventory-system", "wpf-inventory-system.csproj", "{98E094C5-8B3C-4A66-9BF0-76A68DD585EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "system_main", "system_main\system_main.csproj", "{4CDA87DC-D27A-422A-83F5-9F71B5116C9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{98E094C5-8B3C-4A66-9BF0-76A68DD585EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98E094C5-8B3C-4A66-9BF0-76A68DD585EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98E094C5-8B3C-4A66-9BF0-76A68DD585EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98E094C5-8B3C-4A66-9BF0-76A68DD585EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CDA87DC-D27A-422A-83F5-9F71B5116C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDA87DC-D27A-422A-83F5-9F71B5116C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDA87DC-D27A-422A-83F5-9F71B5116C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDA87DC-D27A-422A-83F5-9F71B5116C9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
