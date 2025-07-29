@@ -15,6 +15,7 @@
 
 ## 프로젝트 구조
 
+```shell
 wpf-inventory-system/
 ├── wpf-inventory-system/ // 메인 프로젝트
 │   ├── Program.cs // 진입점
@@ -24,7 +25,7 @@ wpf-inventory-system/
 │   │   └── ApplicationDbContext.cs // DB 컨텍스트
 │   └── Migrations/ // DB 마이그레이션 파일들
 └── README.md
-
+```
 
 
 ## 개발 진행상황
