@@ -16,13 +16,13 @@
 ## 프로젝트 구조
 
 wpf-inventory-system/
-├── wpf-inventory-system/           # 메인 프로젝트
-│   ├── Program.cs                  # 진입점
+├── wpf-inventory-system/ // 메인 프로젝트
+│   ├── Program.cs // 진입점
 │   ├── Models/
-│   │   └── Product.cs              # 상품 엔티티
+│   │   └── Product.cs // 상품 엔티티
 │   ├── Data/
-│   │   └── ApplicationDbContext.cs # DB 컨텍스트
-│   └── Migrations/                 # DB 마이그레이션 파일들
+│   │   └── ApplicationDbContext.cs // DB 컨텍스트
+│   └── Migrations/ // DB 마이그레이션 파일들
 └── README.md
 
 
@@ -36,6 +36,8 @@ wpf-inventory-system/
 ## 실행 방법
 (나중에 채워넣기)
 
+
+## 개발 일기
 
 <details>
 <summary>4일차 - WPF UI 구현 및 프로젝트 구조 확립</summary>
